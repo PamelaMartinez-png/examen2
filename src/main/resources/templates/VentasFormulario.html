@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salón | Venta</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link"><span class="brand-text font-weight-light pl-3">Salón de Belleza</span></a>
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info"><a href="#" class="d-block" th:text="${session.usuarioLogueado}">Usuario</a></div>
+            </div>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column">
+                    <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
+                    <li class="nav-item"><a th:href="@{/servicios}" class="nav-link"><i class="nav-icon fas fa-cut"></i><p>Servicios</p></a></li>
+                    <li class="nav-item"><a th:href="@{/ventas}" class="nav-link active"><i class="nav-icon fas fa-shopping-cart"></i><p>Ventas</p></a></li>
+                    <li class="nav-item"><a th:href="@{/facturacion}" class="nav-link"><i class="nav-icon fas fa-file-invoice"></i><p>Facturación</p></a></li>
+                    <li class="nav-item"><a th:href="@{/estadisticas}" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>Estadísticas</p></a></li>
+                    <li class="nav-item mt-5"><a th:href="@{/auth/logout}" class="nav-link text-danger"><i class="nav-icon fas fa-sign-out-alt"></i><p>Cerrar Sesión</p></a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <h1 th:text="${venta.id == null} ? 'Nueva Venta' : 'Editar Venta'"></h1>
+            </div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-success" style="max-width:600px; margin:auto;">
+                    <div class="card-body">
+                        <form th:action="@{/ventas/guardar}" th:object="${venta}" method="post">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <input type="text" th:field="*{cliente}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Servicio:</label>
+                                <select th:field="*{idServicio}" class="form-control" required>
+                                    <option value="">-- Selecciona un servicio --</option>
+                                    <option th:each="s : ${servicios}"
+                                            th:value="${s.id}"
+                                            th:text="${s.nombre} + ' - $' + ${s.precio}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cantidad:</label>
+                                <input type="number" th:field="*{cantidad}" class="form-control" min="1" value="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha y Hora:</label>
+                                <input type="datetime-local" th:field="*{fecha}" class="form-control">
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <a th:href="@{/ventas}" class="btn btn-secondary btn-block">Cancelar</a>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-success btn-block">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>

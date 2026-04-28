@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salón | Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo"><a href="#"><b>Salón</b> de Belleza</a></div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Inicia sesión</p>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <i class="icon fas fa-ban"></i> <span th:text="${error}"></span>
+            </div>
+            <form th:action="@{/auth/login}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="username" class="form-control" placeholder="Usuario" required>
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-user"></span></div></div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-lock"></span></div></div>
+                </div>
+                <div class="form-group text-center mb-3">
+                    <label class="d-block">¿Cómo deseas ingresar?</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="rolAdmin" name="rol" value="ADMIN" class="custom-control-input" checked>
+                        <label class="custom-control-label" for="rolAdmin">Administrador</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="rolCliente" name="rol" value="CLIENTE" class="custom-control-input">
+                        <label class="custom-control-label" for="rolCliente">Cliente</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Recordarme</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </div>
+                </div>
+            </form>
+            <p class="mb-1"><a th:href="@{/auth/forgot}">Olvidé mi contraseña</a></p>
+            <p class="mb-0"><a th:href="@{/auth/register}" class="text-center">Registrarme</a></p>
+        </div>
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>

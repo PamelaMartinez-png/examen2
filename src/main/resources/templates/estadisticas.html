@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salón | Estadísticas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link"><span class="brand-text font-weight-light pl-3">Salón de Belleza</span></a>
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info"><a href="#" class="d-block" th:text="${usuario}">Usuario</a></div>
+            </div>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column">
+                    <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
+                    <li class="nav-item"><a th:href="@{/servicios}" class="nav-link"><i class="nav-icon fas fa-cut"></i><p>Servicios</p></a></li>
+                    <li class="nav-item"><a th:href="@{/ventas}" class="nav-link"><i class="nav-icon fas fa-shopping-cart"></i><p>Ventas</p></a></li>
+                    <li class="nav-item"><a th:href="@{/facturacion}" class="nav-link"><i class="nav-icon fas fa-file-invoice"></i><p>Facturación</p></a></li>
+                    <li class="nav-item"><a th:href="@{/estadisticas}" class="nav-link active"><i class="nav-icon fas fa-chart-bar"></i><p>Estadísticas</p></a></li>
+                    <li class="nav-item mt-5"><a th:href="@{/auth/logout}" class="nav-link text-danger"><i class="nav-icon fas fa-sign-out-alt"></i><p>Cerrar Sesión</p></a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid"><h1>Estadísticas del Salón</h1></div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-info">
+                            <div class="card-header"><h3 class="card-title">Servicios vs Ventas</h3></div>
+                            <div class="card-body"><canvas id="barChart" style="min-height:250px;"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-danger">
+                            <div class="card-header"><h3 class="card-title">Proporción</h3></div>
+                            <div class="card-body"><canvas id="donutChart" style="min-height:250px;"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-success">
+                            <div class="card-header"><h3 class="card-title">Tendencia de Ventas</h3></div>
+                            <div class="card-body"><canvas id="lineChart" style="min-height:250px;"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-warning">
+                            <div class="card-header"><h3 class="card-title">Ingresos por Mes</h3></div>
+                            <div class="card-body"><canvas id="areaChart" style="min-height:250px;"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/chart.js/Chart.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const totalServicios = /*[[${totalServicios}]]*/ 0;
+    const totalVentas    = /*[[${totalVentas}]]*/ 0;
+
+    new Chart($('#barChart').get(0).getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Servicios', 'Ventas'],
+            datasets: [{ label: 'Total', backgroundColor: ['#17a2b8','#28a745'], data: [totalServicios, totalVentas] }]
+        }
+    });
+
+    new Chart($('#donutChart').get(0).getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Servicios', 'Ventas'],
+            datasets: [{ data: [totalServicios, totalVentas], backgroundColor: ['#17a2b8','#28a745'] }]
+        }
+    });
+
+    new Chart($('#lineChart').get(0).getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: ['Ene','Feb','Mar','Abr','May','Jun'],
+            datasets: [{ label: 'Ventas', borderColor: '#28a745', fill: false, data: [2, 5, 3, totalVentas, 4, 6] }]
+        }
+    });
+
+    new Chart($('#areaChart').get(0).getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: ['Semana 1','Semana 2','Semana 3','Semana 4'],
+            datasets: [{ label: 'Ingresos $', backgroundColor: 'rgba(255,193,7,0.5)', fill: true, data: [500, 800, 600, 1000] }]
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

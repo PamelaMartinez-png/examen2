@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salón | Ventas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link"><span class="brand-text font-weight-light pl-3">Salón de Belleza</span></a>
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info"><a href="#" class="d-block" th:text="${usuario}">Usuario</a></div>
+            </div>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column">
+                    <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
+                    <li class="nav-item"><a th:href="@{/servicios}" class="nav-link"><i class="nav-icon fas fa-cut"></i><p>Servicios</p></a></li>
+                    <li class="nav-item"><a th:href="@{/ventas}" class="nav-link active"><i class="nav-icon fas fa-shopping-cart"></i><p>Ventas</p></a></li>
+                    <li class="nav-item"><a th:href="@{/facturacion}" class="nav-link"><i class="nav-icon fas fa-file-invoice"></i><p>Facturación</p></a></li>
+                    <li class="nav-item"><a th:href="@{/estadisticas}" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>Estadísticas</p></a></li>
+                    <li class="nav-item mt-5"><a th:href="@{/auth/logout}" class="nav-link text-danger"><i class="nav-icon fas fa-sign-out-alt"></i><p>Cerrar Sesión</p></a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6"><h1>Gestión de Ventas</h1></div>
+                    <div class="col-sm-6 text-right">
+                        <a th:href="@{/ventas/nuevo}" class="btn btn-success"><i class="fas fa-plus"></i> Nueva Venta</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">Ventas Registradas</h3></div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr><th>ID</th><th>Cliente</th><th>Servicio</th><th>Cantidad</th><th>Total</th><th>Fecha</th><th>Acciones</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="venta : ${ventas}">
+                            <td th:text="${venta.id}"></td>
+                            <td th:text="${venta.cliente}"></td>
+                            <td th:text="${venta.idServicio}"></td>
+                            <td th:text="${venta.cantidad}"></td>
+                            <td th:text="'$' + ${venta.total}"></td>
+                            <td th:text="${venta.fecha}"></td>
+                            <td>
+                                <a th:href="@{/ventas/editar/{id}(id=${venta.id})}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                                <a th:href="@{/ventas/eliminar/{id}(id=${venta.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta venta?')"><i class="fas fa-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>
